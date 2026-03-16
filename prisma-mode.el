@@ -21,12 +21,17 @@
 ;;; Syntax highlight and LSP functionality for the Prisma Schema Language. Using
 ;;; the LSP functionality requires the npm package @prisma/language-server to
 ;;; be installed in the system, providing prisma-language-server somewhere in
-;;; the path.
+;;; the path:
+;;;
+;;;   npm install -g @prisma/language-server
 
-;;; Enabling the LSP functionality automatically can be done with a hook:
+;;; Enabling the LSP functionality automatically can be done with a hook.
+;;; For lsp-mode users:
 ;;;   (add-hook 'prisma-mode-hook #'lsp-deferred)
+;;; For eglot users:
+;;;   (add-hook 'prisma-mode-hook #'eglot-ensure)
 
-;;; Format can happen automatically on save with following hook:
+;;; Format can happen automatically on save with following hook (lsp-mode):
 ;;;   (add-hook 'before-save-hook #'(lambda () (when (eq major-mode 'prisma-mode)
 ;;;                                                  (lsp-format-buffer))))
 
@@ -34,6 +39,9 @@
 
 (when (require 'lsp-mode nil 'noerror)
 	(require 'lsp-prisma))
+
+(when (require 'eglot nil 'noerror)
+	(require 'eglot-prisma))
 
 (setq prisma-font-lock-keywords
       (let* (
